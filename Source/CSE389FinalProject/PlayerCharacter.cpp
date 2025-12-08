@@ -14,7 +14,7 @@ APlayerCharacter::APlayerCharacter()
 
 	Score = 0;
 	Health = 100;
-	BallsLeft = 3;
+	BallsLeft = 30;
 	CanKick = true;
 }
 
@@ -113,6 +113,37 @@ void APlayerCharacter::Kick(const FInputActionValue& Value)
 {
 	if (GetBallsLeft() > 0) {
 		SetBallsLeft(GetBallsLeft() - 1);
+
+		// Set ProjectileSpawn to spawn projectiles slightly in front of the character
+		BallSpawn.Set(50.0f, 0.0f, -40.0f);
+
+		// Transform ProjectileSpawn from local space to world space
+		FVector SpawnLocation = GetActorLocation() + FTransform(GetActorRotation()).TransformVector(BallSpawn);
+
+		// Skew the aim to be slightly upwards
+		FRotator SpawnRotation = GetActorRotation();
+		SpawnRotation.Pitch += 20.0f;
+
+		// Give our projectile some metadata
+		FActorSpawnParameters SpawnParams;
+		SpawnParams.Owner = this;
+		SpawnParams.Instigator = GetInstigator();
+
+		// Spawn the projectile using our locations and metadata
+		ABall* Ball = GetWorld()->SpawnActor<ABall>(SpawnLocation, SpawnRotation, SpawnParams);
+
+		if (Ball) {
+			// Set the projectile's initial trajectory
+			FVector LaunchDirection = SpawnRotation.Vector();
+			Ball->FireInDirection(LaunchDirection);
+
+			if (GEngine) {
+				GEngine->AddOnScreenDebugMessage(-1, 5.f, FColor::White, TEXT("Kicked!"));
+			}
+		}
+	}
+	else {
+		UE_LOG(LogTemp, Warning, TEXT("Out Of Balls"));
 	}
 }
 

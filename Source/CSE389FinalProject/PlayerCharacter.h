@@ -7,6 +7,7 @@
 #include "GameFramework/Character.h"
 #include "InputActionValue.h"
 #include "InputAction.h"
+#include "Ball.h"
 #include "PlayerCharacter.generated.h"
 
 UCLASS()
