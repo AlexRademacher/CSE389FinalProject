@@ -56,7 +56,7 @@ ABall::ABall()
 	PMComp->Bounciness = 0.8f;
 	PMComp->ProjectileGravityScale = 1.0f; // no gravity
 
-	InitialLifeSpan = 8.0f;
+	InitialLifeSpan = 15.0f;
 }
 
 // Called when the game starts or when spawned
