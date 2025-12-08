@@ -19,7 +19,7 @@ APatrollingObstacle::APatrollingObstacle()
 	BallCollisionDetection->SetupAttachment(RootComponent);
 
 	BallAttackCollision = CreateDefaultSubobject<UBoxComponent>(TEXT("Player Attack Collision"));
-	BallAttackCollision->SetupAttachment(RootComponent);
+	BallAttackCollision->SetupAttachment(GetMesh(), TEXT("Cone"));
 
 	ballDetected = false;
 	canAttackBall = false;
@@ -35,7 +35,7 @@ void APatrollingObstacle::BeginPlay()
 
 	// When we've completed any path following (e.g., walking around), call OnAIMoveCompleted
 	AIController->GetPathFollowingComponent()->OnRequestFinished.AddUObject(this, &APatrollingObstacle::OnAIMoveCompleted);
-
+	
 	// Add links to functions so tat our Enemy will react to the following events
 	BallCollisionDetection->OnComponentBeginOverlap.AddDynamic(this,
 		&APatrollingObstacle::OnBallDetectedOverlapBegin);
@@ -43,10 +43,10 @@ void APatrollingObstacle::BeginPlay()
 	BallCollisionDetection->OnComponentEndOverlap.AddDynamic(this,
 		&APatrollingObstacle::OnBallDetectedOverlapEnd);
 
-	BallCollisionDetection->OnComponentBeginOverlap.AddDynamic(this,
+	BallAttackCollision->OnComponentBeginOverlap.AddDynamic(this,
 		&APatrollingObstacle::OnBallAttackOverlapBegin);
 
-	BallCollisionDetection->OnComponentEndOverlap.AddDynamic(this,
+	BallAttackCollision->OnComponentEndOverlap.AddDynamic(this,
 		&APatrollingObstacle::OnBallAttackOverlapEnd);
 }
 
@@ -94,50 +94,65 @@ void APatrollingObstacle::StopSeekingBall()
 
 void APatrollingObstacle::OnBallDetectedOverlapBegin(UPrimitiveComponent* OverlappedComp, AActor* OtherActor, UPrimitiveComponent* OtherComp, int32 OtherBodyIndex, bool bFromSweep, const FHitResult& SweepResult)
 {
-	Ball = Cast<AActor>(OtherActor);
+	if (OtherActor->GetName().Contains("Ball")) {
+		Ball = Cast<AActor>(OtherActor);
 
-	if (Ball)
-	{
-		ballDetected = true;
-		SeekBall();
+		if (Ball)
+		{
+			ballDetected = true;
+			SeekBall();
+		}
 	}
 }
 
 void APatrollingObstacle::OnBallDetectedOverlapEnd(UPrimitiveComponent* OverlappedComp, AActor* OtherActor, UPrimitiveComponent* OtherComp, int32 OtherBodyIndex)
 {
-	Ball = Cast<AActor>(OtherActor);
+	if (OtherActor->GetName().Contains("Ball")) {
+		Ball = Cast<AActor>(OtherActor);
 
-	if (Ball)
-	{
-		ballDetected = false;
-		StopSeekingBall();
-		AIController->RandomPatrol();
+		if (Ball)
+		{
+			ballDetected = false;
+			StopSeekingBall();
+			AIController->RandomPatrol();
+		}
 	}
 }
 
 void APatrollingObstacle::OnBallAttackOverlapBegin(UPrimitiveComponent* OverlappedComp, AActor* OtherActor, UPrimitiveComponent* OtherComp, int32 OtherBodyIndex, bool bFromSweep, const FHitResult& SweepResult)
 {
-	Ball = Cast<AActor>(OtherActor);
+	if (OtherActor->GetName().Contains("Ball")) {
+		Ball = Cast<AActor>(OtherActor);
 
-	if (Ball)
-	{
-		ballDetected = true;
-		canAttackBall = true;
+		if (Ball)
+		{
+			ballDetected = true;
+			canAttackBall = true;
 
-		// deal damage to the player
-		UE_LOG(LogTemp, Warning, TEXT("Ball Destoryed"));
+			ABall* BallScript = Cast<ABall>(Ball);
+
+			if (BallScript)
+			{
+				BallScript->DestoryBall();
+			}
+
+			// deal damage to the player
+			UE_LOG(LogTemp, Warning, TEXT("Ball Destroyed"));
+		}
 	}
 }
 
 void APatrollingObstacle::OnBallAttackOverlapEnd(UPrimitiveComponent* OverlappedComp, AActor* OtherActor, UPrimitiveComponent* OtherComp, int32 OtherBodyIndex)
 {
-	Ball = Cast<AActor>(OtherActor);
+	if (OtherActor->GetName().Contains("Ball")) {
+		Ball = Cast<AActor>(OtherActor);
 
-	if (Ball)
-	{
-		canAttackBall = false;
+		if (Ball)
+		{
+			canAttackBall = false;
 
-		SeekBall();
+			SeekBall();
+		}
 	}
 }
 
