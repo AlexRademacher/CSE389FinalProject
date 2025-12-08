@@ -3,7 +3,7 @@
 
 #include "ObstacleBall.h"
 
-float actorYaw;
+
 
 // Sets default values
 AObstacleBall::AObstacleBall()

@@ -20,7 +20,7 @@ ABallSpawner::ABallSpawner()
 void ABallSpawner::BeginPlay()
 {
 	Super::BeginPlay();
-	
+	SpawnActor();
 	GetWorld()->GetTimerManager().SetTimer(TimerHandle, this, &ABallSpawner::SpawnActor, timer, true);
 }
 
