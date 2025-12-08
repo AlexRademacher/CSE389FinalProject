@@ -17,9 +17,16 @@ void AWindBox::BeginPlay()
 
 void AWindBox::OnOverlapBegin(AActor* OverlappedActor, AActor* OtherActor)
 {
-	FVector NewLoc = FVector(0.f, 1.f, 0.f);
-	NewLoc = WindDirection;
-	Cast<ABall>(OtherActor)->setPMCompVelocity(NewLoc);
+	if (OtherActor->GetName().Contains("Ball")) {
+		AActor* Ball = Cast<AActor>(OtherActor);
+
+		if (Ball) {
+			FVector NewLoc = FVector(0.f, 1.f, 0.f);
+			NewLoc = WindDirection;
+
+			//Cast<ABall>(Ball)->setPMCompVelocity(NewLoc);
+		}
+	}
 }
 
 void AWindBox::OnOverlapEnd(AActor* OverlappedActor, AActor* OtherActor)
