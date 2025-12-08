@@ -19,7 +19,7 @@ APatrollingObstacle::APatrollingObstacle()
 	BallCollisionDetection->SetupAttachment(RootComponent);
 
 	BallAttackCollision = CreateDefaultSubobject<UBoxComponent>(TEXT("Player Attack Collision"));
-	BallAttackCollision->SetupAttachment(GetMesh(), TEXT("Wolf_-Head"));
+	BallAttackCollision->SetupAttachment(RootComponent);
 
 	ballDetected = false;
 	canAttackBall = false;
