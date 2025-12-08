@@ -21,7 +21,7 @@ void ABallSpawner::BeginPlay()
 {
 	Super::BeginPlay();
 	
-	GetWorld()->GetTimerManager().SetTimer(TimerHandle, this, &ABallSpawner::SpawnActor, 5.0f, true);
+	GetWorld()->GetTimerManager().SetTimer(TimerHandle, this, &ABallSpawner::SpawnActor, timer, true);
 }
 
 // Called every frame

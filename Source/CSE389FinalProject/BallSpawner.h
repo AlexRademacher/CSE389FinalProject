@@ -25,6 +25,9 @@ protected:
 	UPROPERTY(EditAnywhere, Category = "Parameters")
 	TSubclassOf<AActor> ObstacleBall;
 
+	UPROPERTY(EditAnywhere, Category = "Parameters")
+	float timer;
+
 	FTimerHandle TimerHandle;
 
 public:	
