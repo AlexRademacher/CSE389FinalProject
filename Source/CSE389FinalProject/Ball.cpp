@@ -18,7 +18,7 @@ ABall::ABall()
 	// Event called when component hits something
 	CollisionComp->OnComponentHit.AddDynamic(this, &ABall::OnHit);
 	// Set the sphere's collision radius
-	CollisionComp->InitSphereRadius(5.0f);
+	CollisionComp->InitSphereRadius(6.0f);
 
 	// Set the root component to be the collision component
 	RootComponent = CollisionComp;
@@ -31,7 +31,7 @@ ABall::ABall()
 
 	if (Mesh.Succeeded()) {
 		MeshComp->SetStaticMesh(Mesh.Object);
-		MeshComp->SetRelativeScale3D(FVector(1.f, 1.f, 1.f));
+		MeshComp->SetRelativeScale3D(FVector(1.25f, 1.25f, 1.25f));
 
 		static ConstructorHelpers::FObjectFinder<UMaterial> SoccerBall(TEXT("/Game/Assets/soccer-ball-football/textures/Football_Mat.Football_Mat"));
 
