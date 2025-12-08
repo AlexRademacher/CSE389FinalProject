@@ -38,11 +38,11 @@ void AObstacleBall::Tick(float DeltaTime)
 	SetActorRotation(FRotator(0.f, actorYaw, 0.f));
 
 
-	FVector NewLoc = FVector(5.f, 0.f, 0.f);
+	FVector NewLoc = FVector(250.f, 0.f, 0.f) * DeltaTime;
 	AddActorLocalOffset(NewLoc);
 
 	SetActorRotation(oldRotation);
-	FRotator NewRot = FRotator(-5.0f, 0.0f, 0.0f);
+	FRotator NewRot = FRotator(-90.0f, 0.0f, 0.0f) * DeltaTime;
 	
 	AddActorLocalRotation(NewRot);
 }
