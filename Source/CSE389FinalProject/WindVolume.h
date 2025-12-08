@@ -21,7 +21,10 @@ protected:
 	virtual void BeginPlay() override;
 
 	UPROPERTY(EditAnywhere, Category = "Parameters")
-	FVector WindDirection;
+	float WindSpeed;
+
+	UPROPERTY(EditAnywhere)
+	class UNiagaraSystem* WindParticle;
 
 public:
 	//overlap begin
