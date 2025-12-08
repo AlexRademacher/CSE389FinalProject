@@ -31,7 +31,13 @@ void AWindVolume::OnOverlapBegin(AActor* OverlappedActor, AActor* OtherActor)
 			UE_LOG(LogTemp, Warning, TEXT("Wind Applied"));
 			float Speed = WindSpeed;
 
-			Cast<ABall>(Ball)->setPMCompVelocity(FVector(1.f * Speed, 1.f, 1.f));
+			UPrimitiveComponent* UPC = Cast<UPrimitiveComponent>(Ball->GetRootComponent());
+
+			if (UPC) {
+				UPC->SetSimulatePhysics(true);
+
+				UPC->AddForce(GetActorForwardVector() * Speed);
+			}
 		}
 	}
 }
