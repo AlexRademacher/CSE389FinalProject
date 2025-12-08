@@ -17,14 +17,16 @@ void AWindVolume::BeginPlay()
 
 void AWindVolume::OnOverlapBegin(AActor* OverlappedActor, AActor* OtherActor)
 {
+	UE_LOG(LogTemp, Warning, TEXT("Overlap"));
 	if (OtherActor->GetName().Contains("Ball")) {
+		UE_LOG(LogTemp, Warning, TEXT("Ball Found"));
 		AActor* Ball = Cast<AActor>(OtherActor);
 
 		if (Ball) {
-			FVector NewLoc = FVector(0.f, 1.f, 0.f);
-			NewLoc = WindDirection;
+			UE_LOG(LogTemp, Warning, TEXT("Wind Applied"));
+			float Speed = WindSpeed;
 
-			Cast<ABall>(Ball)->setPMCompVelocity(NewLoc);
+			Cast<ABall>(Ball)->setPMCompVelocity(FVector(1.f * Speed, 1.f, 1.f));
 		}
 	}
 }
