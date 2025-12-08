@@ -73,6 +73,12 @@ void ABall::Tick(float DeltaTime)
 
 }
 
+
+void ABall::setPMCompVelocity(FVector wind)
+{
+	PMComp->Velocity = wind * PMComp->Velocity;
+}
+
 void ABall::FireInDirection(const FVector& ShootDirection)
 {
 	PMComp->Velocity = ShootDirection * PMComp->InitialSpeed;
