@@ -35,8 +35,12 @@ void ABallSpawner::SpawnActor()
 {
 	FVector SpawnLocation = GetActorLocation();
 	FRotator SpawnRotation = GetActorRotation();
+	FVector SpawnScale = GetActorScale3D();
 
+	AActor* spawnedBall = GetWorld()->SpawnActor<AActor>(ObstacleBall, GetActorLocation(), GetActorRotation());
 
-	GetWorld()->SpawnActor<AActor>(ObstacleBall, GetActorLocation(), GetActorRotation());
+	spawnedBall->SetActorScale3D(SpawnScale);
+
+	
 	//GetWorld()->SpawnActor<AObstacleBall>(SpawnLocation, SpawnRotation);
 }
