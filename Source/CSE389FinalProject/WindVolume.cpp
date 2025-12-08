@@ -11,6 +11,8 @@ AWindVolume::AWindVolume()
 	OnActorBeginOverlap.AddDynamic(this, &AWindVolume::OnOverlapBegin);
 	OnActorEndOverlap.AddDynamic(this, &AWindVolume::OnOverlapEnd);
 	WindParticle = Cast<UNiagaraSystem>(StaticLoadObject(UNiagaraSystem::StaticClass(), nullptr, TEXT("/Game/Vefects/VFX_Wind.VFX_Wind")));
+
+	
 }
 
 void AWindVolume::BeginPlay()
@@ -18,6 +20,12 @@ void AWindVolume::BeginPlay()
 	Super::BeginPlay();
 
 	UNiagaraComponent* NiagaraComp = UNiagaraFunctionLibrary::SpawnSystemAtLocation(GetWorld(), WindParticle, this->GetActorLocation(), this->GetActorRotation(), FVector(1.0f, 1.0f, 1.0f), true);
+
+	if (NiagaraComp) {
+		NiagaraComp->SetNiagaraVariableFloat(FString("Lifetime"), ParticleLifetime);
+
+		NiagaraComp->SetNiagaraVariableVec3(FString("SpawnScale"), GetActorScale3D());
+	}
 }
 
 void AWindVolume::OnOverlapBegin(AActor* OverlappedActor, AActor* OtherActor)
