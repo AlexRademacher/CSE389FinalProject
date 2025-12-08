@@ -23,6 +23,9 @@ protected:
 	UPROPERTY(EditAnywhere, Category = "Parameters")
 	float WindSpeed;
 
+	UPROPERTY(EditAnywhere)
+	class UNiagaraSystem* WindParticle;
+
 public:
 	//overlap begin
 	UFUNCTION()

@@ -3,16 +3,21 @@
 
 #include "WindVolume.h"
 #include "Ball.h"
+#include "NiagaraFunctionLibrary.h"
+#include "NiagaraComponent.h"
 
 AWindVolume::AWindVolume()
 {
 	OnActorBeginOverlap.AddDynamic(this, &AWindVolume::OnOverlapBegin);
 	OnActorEndOverlap.AddDynamic(this, &AWindVolume::OnOverlapEnd);
+	WindParticle = Cast<UNiagaraSystem>(StaticLoadObject(UNiagaraSystem::StaticClass(), nullptr, TEXT("/Game/Vefects/VFX_Wind.VFX_Wind")));
 }
 
 void AWindVolume::BeginPlay()
 {
 	Super::BeginPlay();
+
+	UNiagaraComponent* NiagaraComp = UNiagaraFunctionLibrary::SpawnSystemAtLocation(GetWorld(), WindParticle, this->GetActorLocation(), this->GetActorRotation(), FVector(1.0f, 1.0f, 1.0f), true);
 }
 
 void AWindVolume::OnOverlapBegin(AActor* OverlappedActor, AActor* OtherActor)
