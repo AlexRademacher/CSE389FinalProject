@@ -20,6 +20,8 @@ public:
 	// Function that initializes the projectile's velocity in the shoot direction
 	void FireInDirection(const FVector& ShootDirection);
 
+	void DestoryBall();
+
 protected:
 	// Called when the game starts or when spawned
 	virtual void BeginPlay() override;

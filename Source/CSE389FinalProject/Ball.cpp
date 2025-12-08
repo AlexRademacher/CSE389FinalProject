@@ -84,6 +84,11 @@ void ABall::FireInDirection(const FVector& ShootDirection)
 	PMComp->Velocity = ShootDirection * PMComp->InitialSpeed;
 }
 
+void ABall::DestoryBall()
+{
+	this->Destroy();
+}
+
 void ABall::OnHit(UPrimitiveComponent* HitComponent, AActor* OtherActor, UPrimitiveComponent* OtherComponent, FVector NormalImpulse, const FHitResult& Hit) {
 	if (OtherActor != this && OtherComponent->IsSimulatingPhysics()) {
 		//OtherComponent->AddImpulseAtLocation(PMComp->Velocity * 100.0f, Hit.ImpactPoint);
