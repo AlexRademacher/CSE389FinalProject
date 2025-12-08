@@ -3,6 +3,8 @@
 
 #include "ObstacleBall.h"
 
+float actorYaw;
+
 // Sets default values
 AObstacleBall::AObstacleBall()
 {
@@ -19,6 +21,8 @@ void AObstacleBall::BeginPlay()
 	Super::BeginPlay();
 	
 	this->SetLifeSpan(10.f);
+
+	actorYaw = GetActorRotation().Yaw;
 }
 
 // Called every frame
@@ -29,10 +33,17 @@ void AObstacleBall::Tick(float DeltaTime)
 	
 
 	//Change new location by 5 along x and change rotation by 5 along roll axis
-	FVector NewLoc = FVector(5.0f, 0.0f, 0.0f);
-	FRotator NewRot = FRotator(-5.0f, 0.0f, 0.0f);
+	FRotator oldRotation = GetActorRotation();
+	
+	SetActorRotation(FRotator(0.f, actorYaw, 0.f));
 
-	AddActorWorldOffset(NewLoc);
+
+	FVector NewLoc = FVector(5.f, 0.f, 0.f);
+	AddActorLocalOffset(NewLoc);
+
+	SetActorRotation(oldRotation);
+	FRotator NewRot = FRotator(-5.0f, 0.0f, 0.0f);
+	
 	AddActorLocalRotation(NewRot);
 }
 
