@@ -5,6 +5,8 @@
 #include "CoreMinimal.h"
 #include "GameFramework/GameModeBase.h"
 #include "Engine/TriggerVolume.h"
+#include "NiagaraSystem.h"
+#include "NiagaraFunctionLibrary.h"
 #include "GoalVolume.generated.h"
 
 /**
@@ -17,9 +19,14 @@ class CSE389FINALPROJECT_API AGoalVolume : public ATriggerVolume
 public:
     AGoalVolume();
 
+    FTimerHandle PauseHandle;
+
 protected:
     UPROPERTY(VisibleAnywhere)
     class UBoxComponent* Box;
+
+    UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Effects")
+    UNiagaraSystem* GoalEffect;
 
     UFUNCTION()
     void OnOverlapBegin(UPrimitiveComponent* OverlappedComp,
@@ -28,4 +35,6 @@ protected:
         int32 OtherBodyIndex,
         bool bFromSweep,
         const FHitResult& SweepResult);
+    UFUNCTION()
+    void PauseGame();
 };
