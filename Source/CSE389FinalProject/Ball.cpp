@@ -49,14 +49,14 @@ ABall::ABall()
 	PMComp = CreateDefaultSubobject<UProjectileMovementComponent>(TEXT("ProjectileMovementComponent"));
 
 	PMComp->SetUpdatedComponent(CollisionComp);
-	PMComp->InitialSpeed = 1500.f;
-	PMComp->MaxSpeed = 1500.f;
+	PMComp->InitialSpeed = 1900.f;
+	PMComp->MaxSpeed = 1900.f;
 	PMComp->bRotationFollowsVelocity = true;
 	PMComp->bShouldBounce = true;
 	PMComp->Bounciness = 0.8f;
 	PMComp->ProjectileGravityScale = 1.0f; // no gravity
 
-	InitialLifeSpan = 8.0f;
+	InitialLifeSpan = 15.0f;
 }
 
 // Called when the game starts or when spawned

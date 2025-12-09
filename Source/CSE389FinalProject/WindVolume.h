@@ -25,6 +25,9 @@ protected:
 
 	UPROPERTY(EditAnywhere)
 	class UNiagaraSystem* WindParticle;
+	UPROPERTY(EditAnywhere, Category = "Parameters") 
+	
+	float ParticleLifetime;
 
 public:
 	//overlap begin
