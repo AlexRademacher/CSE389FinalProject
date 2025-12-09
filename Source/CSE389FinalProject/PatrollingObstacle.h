@@ -42,7 +42,7 @@ protected:
 	void OnAIMoveCompleted(struct FAIRequestID RequestID, const struct FPathFollowingResult& Result);
 
 	UPROPERTY(EditAnywhere)
-	float StoppingDistance = 200.0f;
+	float StoppingDistance = 50.f;
 
 	FTimerHandle SeekPlayerTimerHandle;
 
