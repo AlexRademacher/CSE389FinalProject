@@ -84,4 +84,6 @@ public:
 
 	UFUNCTION(BlueprintCallable)
 	int GetBallsLeft();
+
+	virtual void EndPlay(const EEndPlayReason::Type EndPlayReason) override;
 };

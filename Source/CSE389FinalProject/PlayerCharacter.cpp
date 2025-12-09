@@ -5,6 +5,7 @@
 #include "InputMappingContext.h"
 #include "EnhancedInputSubsystems.h"
 #include "EnhancedInputComponent.h"
+#include "SoccerInstance.h"
 
 // Sets default values
 APlayerCharacter::APlayerCharacter()
@@ -22,7 +23,13 @@ APlayerCharacter::APlayerCharacter()
 void APlayerCharacter::BeginPlay()
 {
 	Super::BeginPlay();
-	
+
+	USoccerInstance* GI = Cast<USoccerInstance>(GetGameInstance());
+	if (GI)
+	{
+		Score = GI->SavedScore;
+	}
+
 	CollisionComp = FindComponentByClass<UCapsuleComponent>();
 
 	if (CollisionComp)
@@ -144,6 +151,17 @@ void APlayerCharacter::Kick(const FInputActionValue& Value)
 	}
 	else {
 		UE_LOG(LogTemp, Warning, TEXT("Out Of Balls"));
+	}
+}
+
+void APlayerCharacter::EndPlay(const EEndPlayReason::Type EndPlayReason)
+{
+	Super::EndPlay(EndPlayReason);
+
+	USoccerInstance* GI = Cast<USoccerInstance>(GetGameInstance());
+	if (GI)
+	{
+		GI->SavedScore = Score;  
 	}
 }
 
