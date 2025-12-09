@@ -15,7 +15,7 @@ APlayerCharacter::APlayerCharacter()
 
 	Score = 0;
 	Health = 100;
-	BallsLeft = 30;
+	BallsLeft = 5;
 	CanKick = true;
 }
 
