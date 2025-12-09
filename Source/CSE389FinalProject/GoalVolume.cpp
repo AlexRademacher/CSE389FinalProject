@@ -16,6 +16,10 @@ AGoalVolume::AGoalVolume()
 	Box->OnComponentBeginOverlap.AddDynamic(this, &AGoalVolume::OnOverlapBegin);
 
 }
+void AGoalVolume::PauseGame()
+{
+    UGameplayStatics::SetGamePaused(GetWorld(), true);
+}
 void AGoalVolume::OnOverlapBegin(UPrimitiveComponent* OverlappedComp, AActor* OtherActor, UPrimitiveComponent* OtherComp, int32 OtherBodyIndex, bool bFromSweep, const FHitResult& SweepResult)
 {
 
@@ -28,7 +32,14 @@ void AGoalVolume::OnOverlapBegin(UPrimitiveComponent* OverlappedComp, AActor* Ot
         {
             int32 NewScore = Player->GetScore() + 1;
             Player->SetScore(NewScore);
-
+            if (GoalEffect)
+            {
+                UNiagaraFunctionLibrary::SpawnSystemAtLocation(
+                    GetWorld(),
+                    GoalEffect,
+                    GetActorLocation()
+                );
+            }
             AGameModeBase* GM = GetWorld()->GetAuthGameMode(); 
             if (GM)
             {
@@ -43,6 +54,10 @@ void AGoalVolume::OnOverlapBegin(UPrimitiveComponent* OverlappedComp, AActor* Ot
                     UE_LOG(LogTemp, Warning, TEXT("Function %s not found in GameMode!"), *FunctionName.ToString());
                 }
             }
+            OtherActor->Destroy();
+
+            GetWorldTimerManager().SetTimer(PauseHandle,this,&AGoalVolume::PauseGame,2.0f,false
+            );
         }
     }
 }
